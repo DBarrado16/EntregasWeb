@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import logoUtad from './assets/logoUtad.png'
-import InputTarea from './components/InputTarea.jsx'
+import InputTarea from './components/Todo.jsx'
 import Logo from './components/Logo.jsx'
 import './App.css'
 

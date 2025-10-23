@@ -1,20 +1,16 @@
-import {useState} from 'react';
+import Tarea from './Tarea';
 
-const ListaTareas = ({listaTareas, borrarTarea, completaTarea}) => {
-    return(
+const ListaTareas = ({ listaTareas, borrarTarea, completaTarea }) => {
+    return (
         <>
             {listaTareas.map((tarea, index) => (
-                <div key={index} className="task-item">
-                    <span className={`task-text ${tarea.completada ? 'completed' : ''}`}>
-                        {tarea.texto}
-                    </span>
-                    <div className="button-group">
-                        <button className="btn-complete" onClick={() => completaTarea(index)}>
-                            {tarea.completada ? '↺' : '✓'}
-                        </button>
-                        <button className="btn-delete" onClick={() => borrarTarea(index)}>X</button>
-                    </div>
-                </div>
+                <Tarea
+                    key={index}
+                    tarea={tarea}
+                    index={index}
+                    borrarTarea={borrarTarea}
+                    completaTarea={completaTarea}
+                />
             ))}
         </>
     );
