@@ -5,25 +5,27 @@ const CorreoForm = ({ nextStep, prevStep }) => {
 
   const onSubmit = (data) => {
     console.log(data);
-    nextStep();  // Avanzamos al siguiente paso
+    nextStep();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ margin: "20px 0" }}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Correo Electrónico</h3>
 
-      <div style={{ margin: "10px 0" }}>
+      <div className="form-group">
         <label>Correo</label>
         <input
           type="email"
           placeholder="correo@ejemplo.com"
           {...register("correo", { required: "El correo es obligatorio" })}
         />
-        {errors.correo && <p style={{ color: "red" }}>{errors.correo.message}</p>}
+        {errors.correo && <p className="error-message">{errors.correo.message}</p>}
       </div>
 
-      <button type="button" onClick={prevStep}>Anterior</button>
-      <button type="submit">Siguiente</button>
+      <div className="button-group">
+        <button type="button" className="btn btn-secondary" onClick={prevStep}>Anterior</button>
+        <button type="submit" className="btn btn-primary">Siguiente</button>
+      </div>
     </form>
   );
 };

@@ -1,36 +1,41 @@
 import { useState } from "react";
-import { saveData } from "../utils/storage";  // Usamos las funciones de storage
+import { saveData } from "../utils/storage";
 
 const TipoEntrenamiento = ({ nextStep, prevStep }) => {
   const [entrenamiento, setEntrenamiento] = useState("");
 
   const handleClick = (tipo) => {
     setEntrenamiento(tipo);
-    saveData("tipoEntrenamiento", tipo); // Guardamos la selección en localStorage
+    saveData("tipoEntrenamiento", tipo); 
   };
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div className="form-container">
       <h3>Selecciona tu tipo de entrenamiento:</h3>
-      <button onClick={() => handleClick("fuerza")} style={{ margin: "10px" }}>
-        Fuerza
-      </button>
-      <button onClick={() => handleClick("cardio")} style={{ margin: "10px" }}>
-        Cardio
-      </button>
-      <button onClick={() => handleClick("hiit")} style={{ margin: "10px" }}>
-        HIIT
-      </button>
+      <div className="training-options">
+        <button className={`btn ${entrenamiento === 'fuerza' ? 'btn-primary' : 'btn-secondary'}`} 
+                onClick={() => handleClick("fuerza")}>
+          Fuerza
+        </button>
+        <button className={`btn ${entrenamiento === 'cardio' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => handleClick("cardio")}>
+          Cardio
+        </button>
+        <button className={`btn ${entrenamiento === 'hiit' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => handleClick("hiit")}>
+          HIIT
+        </button>
+      </div>
 
       {entrenamiento && (
-        <div style={{ marginTop: "20px" }}>
+        <div className="selection-feedback">
           <h4>Has seleccionado: {entrenamiento}</h4>
         </div>
       )}
 
-      <div style={{ marginTop: "20px" }}>
-        <button type="button" onClick={prevStep}>Anterior</button>
-        <button type="button" onClick={nextStep}>Siguiente</button>
+      <div className="button-group">
+        <button type="button" className="btn btn-secondary" onClick={prevStep}>Anterior</button>
+        <button type="button" className="btn btn-primary" onClick={nextStep}>Siguiente</button>
       </div>
     </div>
   );

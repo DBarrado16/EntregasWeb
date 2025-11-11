@@ -50,14 +50,13 @@ const FormularioRegistro = () => {
 
   const handleFinalSubmit = () => {
     const final = buildMergedData();
-    try { saveData("registroCompleto", final); } catch (e) { /* noop */ }
+    try { saveData("registroCompleto", final); } catch (e) {}
     console.log("Registro final enviado:", final);
     setSubmitted(true);
   };
 
   return (
     <div ref={containerRef}>
-      {/* Mostrar los formularios según el paso */}
       {step === 1 && <NombreApellidosForm nextStep={nextStep} />}
       {step === 2 && <DireccionForm nextStep={nextStep} prevStep={prevStep} />}
       {step === 3 && <CodigoPostalForm nextStep={nextStep} prevStep={prevStep} />}
@@ -65,32 +64,31 @@ const FormularioRegistro = () => {
       {step === 5 && <TipoEntrenamiento nextStep={nextStep} prevStep={prevStep} />}
       {step === 6 && <DatosDePago nextStep={nextStep} prevStep={prevStep} />}
 
-      {/* Paso 7: resumen editable y botón de envío */}
       {step === 7 && (
-        <div style={{ textAlign: "left", display: "inline-block", marginTop: 20 }}>
+        <div className="summary-container">
           <h3>Resumen (revisa antes de enviar)</h3>
           {submitted ? (
-            <div>
-              <p style={{ color: "green" }}>Registro enviado correctamente.</p>
+            <div className="success-message">
+              <p>Registro enviado correctamente.</p>
             </div>
           ) : (
             (() => {
               const data = buildMergedData();
               return (
                 <div>
-                  <ul>
-                    <li><strong>Nombre:</strong> {data.nombre || "-"} <button onClick={() => setStep(1)}>Editar</button></li>
-                    <li><strong>Apellidos:</strong> {data.apellidos || "-"} <button onClick={() => setStep(1)}>Editar</button></li>
-                    <li><strong>Dirección:</strong> {data.direccion || "-"} <button onClick={() => setStep(2)}>Editar</button></li>
-                    <li><strong>Código Postal:</strong> {data.codigoPostal || "-"} <button onClick={() => setStep(3)}>Editar</button></li>
-                    <li><strong>Correo:</strong> {data.correo || "-"} <button onClick={() => setStep(4)}>Editar</button></li>
-                    <li><strong>Tipo de entrenamiento:</strong> {data.tipoEntrenamiento || "-"} <button onClick={() => setStep(5)}>Editar</button></li>
-                    <li><strong>Número de tarjeta:</strong> {data.numeroTarjeta || "-"} <button onClick={() => setStep(6)}>Editar</button></li>
-                    <li><strong>Fecha de vencimiento:</strong> {data.fechaVencimiento || "-"} <button onClick={() => setStep(6)}>Editar</button></li>
+                  <ul className="summary-list">
+                    <li className="summary-item"><span className="summary-label">Nombre:</span> <span className="summary-value">{data.nombre || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(1)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Apellidos:</span> <span className="summary-value">{data.apellidos || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(1)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Dirección:</span> <span className="summary-value">{data.direccion || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(2)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Código Postal:</span> <span className="summary-value">{data.codigoPostal || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(3)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Correo:</span> <span className="summary-value">{data.correo || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(4)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Tipo de entrenamiento:</span> <span className="summary-value">{data.tipoEntrenamiento || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(5)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Número de tarjeta:</span> <span className="summary-value">{data.numeroTarjeta || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(6)}>Editar</button></li>
+                    <li className="summary-item"><span className="summary-label">Fecha de vencimiento:</span> <span className="summary-value">{data.fechaVencimiento || "-"}</span> <button className="btn btn-secondary" onClick={() => setStep(6)}>Editar</button></li>
                   </ul>
-                  <div style={{ marginTop: 12 }}>
-                    <button onClick={prevStep}>Volver</button>
-                    <button onClick={handleFinalSubmit} style={{ marginLeft: 8 }}>Enviar</button>
+                  <div className="button-group">
+                    <button className="btn btn-secondary" onClick={prevStep}>Volver</button>
+                    <button className="btn btn-primary" onClick={handleFinalSubmit}>Enviar</button>
                   </div>
                 </div>
               );

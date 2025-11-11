@@ -5,34 +5,34 @@ const NombreApellidosForm = ({ nextStep }) => {
 
   const onSubmit = (data) => {
     console.log(data);
-    nextStep();  // Avanzamos al siguiente paso
+    nextStep(); 
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ margin: "20px 0" }}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Datos personales</h3>
 
-      <div style={{ margin: "10px 0" }}>
+      <div className="form-group">
         <label>Nombre</label>
         <input
           type="text"
           placeholder="Juan"
           {...register("nombre", { required: "El nombre es obligatorio" })}
         />
-        {errors.nombre && <p style={{ color: "red" }}>{errors.nombre.message}</p>}
+        {errors.nombre && <p className="error-message">{errors.nombre.message}</p>}
       </div>
 
-      <div style={{ margin: "10px 0" }}>
+      <div className="form-group">
         <label>Apellidos</label>
         <input
           type="text"
           placeholder="Pérez"
           {...register("apellidos", { required: "Los apellidos son obligatorios" })}
         />
-        {errors.apellidos && <p style={{ color: "red" }}>{errors.apellidos.message}</p>}
+        {errors.apellidos && <p className="error-message">{errors.apellidos.message}</p>}
       </div>
 
-      <button type="submit">Siguiente</button>
+      <button type="submit" className="btn btn-primary">Siguiente</button>
     </form>
   );
 };

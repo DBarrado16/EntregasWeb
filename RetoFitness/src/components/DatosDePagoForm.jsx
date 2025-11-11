@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { saveData } from "../utils/storage"; // Usamos saveData
+import { saveData } from "../utils/storage";
 
 const DatosPagoForm = ({ nextStep, prevStep }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -10,10 +10,10 @@ const DatosPagoForm = ({ nextStep, prevStep }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ margin: "20px 0" }}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Datos de Pago</h3>
 
-      <div style={{ margin: "10px 0" }}>
+      <div className="form-group">
         <label>Número de tarjeta</label>
         <input
           type="text"
@@ -26,10 +26,10 @@ const DatosPagoForm = ({ nextStep, prevStep }) => {
             }
           })}
         />
-        {errors.numeroTarjeta && <p style={{ color: "red" }}>{errors.numeroTarjeta.message}</p>}
+        {errors.numeroTarjeta && <p className="error-message">{errors.numeroTarjeta.message}</p>}
       </div>
 
-      <div style={{ margin: "10px 0" }}>
+      <div className="form-group">
         <label>Fecha de vencimiento</label>
         <input
           type="month"
@@ -37,11 +37,13 @@ const DatosPagoForm = ({ nextStep, prevStep }) => {
             required: "La fecha de vencimiento es obligatoria",
           })}
         />
-        {errors.fechaVencimiento && <p style={{ color: "red" }}>{errors.fechaVencimiento.message}</p>}
+        {errors.fechaVencimiento && <p className="error-message">{errors.fechaVencimiento.message}</p>}
       </div>
 
-      <button type="button" onClick={prevStep}>Anterior</button>
-      <button type="submit">Siguiente</button>
+      <div className="button-group">
+        <button type="button" className="btn btn-secondary" onClick={prevStep}>Anterior</button>
+        <button type="submit" className="btn btn-primary">Siguiente</button>
+      </div>
     </form>
   );
 };

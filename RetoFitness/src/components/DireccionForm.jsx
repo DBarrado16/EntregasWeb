@@ -5,25 +5,27 @@ const DireccionForm = ({ nextStep, prevStep }) => {
 
   const onSubmit = (data) => {
     console.log(data);
-    nextStep();  // Avanzamos al siguiente paso
+    nextStep();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ margin: "20px 0" }}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Dirección</h3>
 
-      <div style={{ margin: "10px 0" }}>
+      <div className="form-group">
         <label>Calle y número</label>
         <input
           type="text"
           placeholder="Calle Ficticia 123"
           {...register("direccion", { required: "La dirección es obligatoria" })}
         />
-        {errors.direccion && <p style={{ color: "red" }}>{errors.direccion.message}</p>}
+        {errors.direccion && <p className="error-message">{errors.direccion.message}</p>}
       </div>
 
-      <button type="button" onClick={prevStep}>Anterior</button>
-      <button type="submit">Siguiente</button>
+      <div className="button-group">
+        <button type="button" className="btn btn-secondary" onClick={prevStep}>Anterior</button>
+        <button type="submit" className="btn btn-primary">Siguiente</button>
+      </div>
     </form>
   );
 };
