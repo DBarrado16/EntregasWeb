@@ -1,10 +1,11 @@
 /*En este archivo lo que haré será una barra de búsqueda hecha con reactHookForm que me muestre los resultados*/
 import { useForm } from "react-hook-form";
 
-const Searchbar = () => {
+const Searchbar = ({onSearch}) => {
     const {register, handleSubmit, formState: {errors}} = useForm();
 
     const onSubmit = (serie) => {
+        onSearch(serie.serie);
         console.log(serie);
     }
 
