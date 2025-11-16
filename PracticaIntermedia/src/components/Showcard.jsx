@@ -6,3 +6,5 @@ function ShowCard({ show, onShowClick }){
         </div>
     )
 }
+
+export default ShowCard;
