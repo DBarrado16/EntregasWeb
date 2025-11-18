@@ -59,45 +59,85 @@ function App() {
   }
 
   useEffect(() => {
-    const savedFavorites = localStorage.getItem('favorites');
-    if (savedFavorites) {
-      setFavourites(JSON.parse(savedFavorites));
+    const savedFavourites = localStorage.getItem('favourites');
+    if (savedFavourites) {
+      setFavourites(JSON.parse(savedFavourites));
     }
   }, []);
 
-  
-const addToFavourites = (show) => {
-  if (!favourites.some(fav => fav.id === show.id)) {
-    const updatedFavourites = [...favourites, show];
-    setFavourites(updatedFavourites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavourites));
-  }
-};
+  // Al cargar la app, obtener una muestra aleatoria de series para mostrar
+  useEffect(() => {
+    const fetchRandomShows = async () => {
+      try {
+        const page = Math.floor(Math.random() * 20); // páginas disponibles en TVMaze
+        const response = await fetch(`https://api.tvmaze.com/shows?page=${page}`);
+        if (!response.ok) throw new Error('Error al obtener series aleatorias');
+        const data = await response.json();
 
-const removeFromFavourites = (showId) => {
-  const updatedFavourites = favourites.filter(fav => fav.id !== showId);
-  setFavourites(updatedFavourites);
-  localStorage.setItem('favorites', JSON.stringify(updatedFavourites));
-};
+        // Mezclar y seleccionar algunas series para mostrar
+        const shuffled = data.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 8);
+
+        // Adaptar al formato que usa SearchResults: [{ show: {...} }, ...]
+        const results = selected.map(show => ({ show }));
+        setSearchResults(results);
+      } catch (err) {
+        console.error('No se pudieron cargar series aleatorias:', err);
+      }
+    };
+
+    fetchRandomShows();
+  }, []);
+
+  const handleToggleFavourite = (show) => {
+    console.log("Toggle favorito para:", show.name);
+    const isAlreadyFavourite = favourites.some(fav => fav.id === show.id);
+    console.log("¿Ya es favorito?", isAlreadyFavourite);
+    
+    let newFavourites;
+
+    if (isAlreadyFavourite) {
+      newFavourites = favourites.filter(fav => fav.id !== show.id);
+      console.log("Quitando de favoritos");
+    } else {
+      newFavourites = [...favourites, show];
+      console.log("Añadiendo a favoritos");
+    }
+
+    console.log("Nuevos favoritos:", newFavourites);
+    setFavourites(newFavourites);
+    localStorage.setItem('favourites', JSON.stringify(newFavourites));
+  };
 
 
   return (
     <>
-      <h1>Busqueda en API TVMaze</h1>
+      <h1>DoroSTAR PLUS+</h1>
       <Searchbar onSearch={handleSearch}/>
 
       {error && <p className="error">{error}</p>}
 
       
       <button onClick={() => setShowFavourites(!showFavourites)}>
-        {showFavourites ? 'Ver resultados' : 'Ver favoritos'}
+        {showFavourites ? 'Ocultar' : 'Ver'} Favoritos ({favourites.length}) 
       </button>
 
+      {showFavourites && (
+        <FavouritesList
+          favourites={favourites}
+          onShowClick={handleShowClick}
+          onToggleFavourite={handleToggleFavourite}
+        />
+      )}
 
+      <SearchResults 
+        results={searchResults} 
+        onShowClick={handleShowClick} 
+        favourites={favourites}
+        onToggleFavourite={handleToggleFavourite}
+      />
 
-      <SearchResults results={searchResults} onShowClick={handleShowClick} />
-
-      <ShowModal show={selectedShow} onClose={handleCloseModal} />{ }
+      <ShowModal show={selectedShow} onClose={handleCloseModal} />
     </>
   )
 }

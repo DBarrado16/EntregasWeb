@@ -1,17 +1,24 @@
-function FavouritesList({ favourites, onShowClick, onRemoveFavourite }) {
+import ShowCard from "./Showcard.jsx";
+
+function FavouritesList({ favourites, onShowClick, onToggleFavourite }) {
+    if(favourites.length === 0){
+        return(<p>No hay series favoritas.</p>);
+    }
+
     return(
         <>
-            <h2>Favoritos</h2>
-            {favourites.length === 0 ? (
-                <p>No hay series favoritas.</p>
-            ) : (
-                favourites.map((fav) => (
-                    <div key={fav.id}>
-                        <ShowCard show={fav} onShowClick={onShowClick} />
-                        <button onClick={() => onRemoveFavourite(fav.id)}>Eliminar</button>
-                    </div>
-                ))
-            )}
+            <h2>Lista de Favoritos</h2>
+            <div>
+                {favourites.map((show) => (
+                    <ShowCard
+                        key={show.id}
+                        show={show}
+                        onShowClick={onShowClick}
+                        onToggleFavourite={onToggleFavourite}
+                        isFavourite={true}
+                    />
+                ))}
+            </div>
         </>
     );
 }

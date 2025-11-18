@@ -1,28 +1,29 @@
 /*En este archivo lo que haré será una barra de búsqueda hecha con reactHookForm que me muestre los resultados*/
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { set } from "react-hook-form";
 
 function Searchbar({onSearch}) {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const [searchTerm, setSearchTerm] = useState("");
 
-    const onSubmit = (serie) => {
-        onSearch(serie.serie);
-        console.log(serie); 
-    }
+    const handleChange = (serie) => {
+        const value = serie.target.value;
+        setSearchTerm(value);
+
+        onSearch(value);
+    };
 
     return(
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <h3>Busqueda</h3>
-                <div>
-                    <input 
-                        type="text" 
-                        placeholder="Ej: Peaky Blinders"
-                        {...register("serie", {required: "Busca una serie..."})}
-                    />
-                    {errors.serie && <p>{errors.serie.message}</p>}
-                </div>
-                <button type="submit">Buscar</button>
-            </form>
+            <h3>Busqueda</h3>
+            <div>
+                <input 
+                    type="text" 
+                    placeholder="Ej: Peaky Blinders"
+                    value={searchTerm}
+                    onChange={handleChange}
+                />
+            </div>
+            <button type="submit">Buscar</button>
         </>
     );
 };
