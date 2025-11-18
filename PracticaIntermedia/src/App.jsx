@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import Searchbar from './components/Searchbar.jsx'
 import SearchResults from './components/Searchresults.jsx'
 import ShowModal from './components/ShowModal.jsx'
+import FavouritesList from './components/FavouritesList.jsx'
 import './App.css'
 import { set } from 'react-hook-form';
 
@@ -10,6 +12,8 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(null);
   const [selectedShow, setSelectedShow] = useState(null);
+  const [favourites, setFavourites] = useState([]);
+  const [showFavourites, setShowFavourites] = useState(false);
 
   //funcion para llamar al api
   const handleSearch = async(id) => {
@@ -54,12 +58,42 @@ function App() {
     setSelectedShow(null);
   }
 
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('favorites');
+    if (savedFavorites) {
+      setFavourites(JSON.parse(savedFavorites));
+    }
+  }, []);
+
+  
+const addToFavourites = (show) => {
+  if (!favourites.some(fav => fav.id === show.id)) {
+    const updatedFavourites = [...favourites, show];
+    setFavourites(updatedFavourites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavourites));
+  }
+};
+
+const removeFromFavourites = (showId) => {
+  const updatedFavourites = favourites.filter(fav => fav.id !== showId);
+  setFavourites(updatedFavourites);
+  localStorage.setItem('favorites', JSON.stringify(updatedFavourites));
+};
+
+
   return (
     <>
-      <h1>TVMaze</h1>
+      <h1>Busqueda en API TVMaze</h1>
       <Searchbar onSearch={handleSearch}/>
 
       {error && <p className="error">{error}</p>}
+
+      
+      <button onClick={() => setShowFavourites(!showFavourites)}>
+        {showFavourites ? 'Ver resultados' : 'Ver favoritos'}
+      </button>
+
+
 
       <SearchResults results={searchResults} onShowClick={handleShowClick} />
 
