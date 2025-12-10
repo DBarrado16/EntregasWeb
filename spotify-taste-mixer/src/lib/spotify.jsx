@@ -65,3 +65,43 @@ export async function getTopArtists(token, timeRange = 'medium_term') {
     const data = await fetchSpotify(`/me/top/artists?time_range=${timeRange}&limit=20`, token)
     return data.items
 }
+
+export async function createPlaylist(userId, name, description, token){
+    const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            description: description,
+            public: false
+        })
+    })
+
+    if(!response.ok){
+        throw new Error('Error creando la playlist')
+    }
+
+    return response.json()
+}
+
+export async function addTracksToPlaylist(playlistId, trackUris, token){
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            uris: trackUris
+        })
+    })
+
+    if(!response.ok){
+        throw new Error('Error añadiendo canciones a la playlist')
+    }
+    
+    return response.json()
+}
