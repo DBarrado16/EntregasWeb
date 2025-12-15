@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import GenreWidget from '../../components/widgets/GenreWidget'
-import MoodWidget from '../../components/widgets/MoodWidget'
 import PopularityWidget from '../../components/widgets/PopularityWidget'
 import DecadeWidget from '../../components/widgets/DecadeWidget'
 import ArtistWidget from '@/components/widgets/ArtistWidget'
@@ -15,17 +14,19 @@ export default function DashboardPage(){
         const [user, setUser] = useState(null)
         const [loading, setLoading] = useState(true)
 
+        //Estado de los widgets
         const [selectedGenres, setSelectedGenres] = useState([])
         const [selectedDecades, setSelectedDecades] = useState([])
-        const [selectedMood, setSelectedMood] = useState(null)
         const [selectedPopularity, setSelectedPopularity] = useState(null)
         const [selectedArtists, setSelectedArtists] = useState([])
         const [selectedTracks, setSelectedTracks] = useState([])
 
+        //Estado de la playlist 
         const [playlist, setPlaylist] = useState([])
         const [favorites, setFavorites] = useState([])
         const [generatingPlaylist, setGeneratingPlaylist] = useState(false)
 
+        //Cargar favoritos de localStorage al iniciar
         useEffect(() => {
             const savedFavorites = localStorage.getItem('spotify_favorites')
             if(savedFavorites){
@@ -33,6 +34,7 @@ export default function DashboardPage(){
             }
         }, [])
 
+        //Guardar favoritos en localStorage cuando cambien
         useEffect(() => {
             localStorage.setItem('spotify_favorites', JSON.stringify(favorites))
         }, [favorites])
@@ -77,6 +79,7 @@ export default function DashboardPage(){
         router.push('/')
     }
 
+    //Funcion para generar la playlist
     const generatePlaylist = async (addMore = false) => {
         const token = localStorage.getItem('spotify_token')
         if(!token) return
@@ -100,18 +103,6 @@ export default function DashboardPage(){
             selectedDecades.forEach(decade => {
                 queries.push(`year:${decade.start}-${decade.end}`)
             })
-
-            if (selectedMood){
-                const moodQueries = {
-                    energetic: 'workout energy',
-                    chill: 'chill relax',
-                    sad: 'sad melancholy',
-                    party: 'party dance',
-                    calm: 'calm peaceful',
-                    motivating: 'motivation power'
-                }
-                queries.push(moodQueries[selectedMood.value] || '')
-            }
 
             if(queries.length === 0){
                 queries.push('top hits')
@@ -204,31 +195,41 @@ export default function DashboardPage(){
 
     if(loading){
         return(
-            <main className="min-h-screen bg-neutral-900 flex items-center justify-center">
-                <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+            <main className="min-h-screen bg-gradient-to-b from-black via-red-950 to-black flex items-center justify-center">
+                <div className="text-center">
+                    <div className="mb-4">
+                        <img 
+                            src="/images/poquitoapoco.png" 
+                            alt="El patriarca está preparando el tablao" 
+                            className="w-60 h-60 mx-auto rounded-full animate-spin"
+                        />
+                    </div>
+                    <p className="text-yellow-200/70">Preparando el tablao...</p>
+                    <p className="text-yellow-200/50 text-sm mt-2">Ole Ole El Arrebato!!</p>
+                </div>
             </main>
         )
     }
 
     return(
-        <main className="min-h-screen bg-neutral-900 p-8">
-            <div className="max-w-6xl mx-auto">
-                <header className="max-w-6xl mx-auto">
-                    <h1 className="text-2xl font-bold text-white">Spotify Taste Mixer</h1>
+        <main className="min-h-screen bg-gradient-to-b from-black via-red-950 to-black p-8">
+            <div className="max-w-7xl mx-auto">
+                <header className="flex justify-between items-center mb-8">
+                    <h1 className="text-2xl font-bold text-yellow-500" style={{textShadow: '1px 1px 2px #000'}}>Ritmo Kaló</h1>
                     <div className="flex items-center gap-4">
-                        <span className="text-neutral-400">
-                            Hola, {user?.display_name}
+                        <span className="text-yellow-200/70">
+                            Buenas, {user?.display_name} que los Yakis te bendigan!
                         </span>
                         <button
                             onClick={handleLogout}
-                            className="bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-full text-sm transition-colors"
+                            className="bg-red-900/50 hover:bg-red-800 text-yellow-300 px-4 py-2 rounded-full text-sm transition-colors border border-yellow-600/50"
                         >
-                            Cerrar sesión
+                            Salir a la calle
                         </button>
                     </div>
                 </header>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <ArtistWidget
@@ -247,10 +248,6 @@ export default function DashboardPage(){
                                 selectedDecades={selectedDecades}
                                 onSelect={setSelectedDecades}
                             />
-                            <MoodWidget
-                                selectedMood={selectedMood}
-                                onSelect={setSelectedMood}
-                            />
                             <PopularityWidget
                                 selectedPopularity={selectedPopularity}
                                 onSelect={setSelectedPopularity}
@@ -260,9 +257,9 @@ export default function DashboardPage(){
                         <button
                             onClick={() => generatePlaylist(false)}
                             disabled={generatingPlaylist}
-                            className="w-full bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold py-3 px-6 rounded-full transition-colors"
+                            className="w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700 hover:from-red-600 hover:via-red-500 hover:to-red-600 disabled:opacity-50 text-yellow-300 font-bold py-3 px-6 rounded-full transition-all border-2 border-yellow-600"
                         >
-                            {generatingPlaylist ? 'Generando, mira un monito para que te entretenga mientras tanto -->🐒' : 'Generar Playlist'}
+                            {generatingPlaylist ? 'Espera mi arma kel patriarca está preparando tu pleilis' : 'Hablar con el patriarca'}
                         </button>
                     </div>
 

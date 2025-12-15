@@ -20,15 +20,20 @@ export default function LoginPage(){
   }
 
 return(
-  <main className="min-h-screen bg-gradient-to-b from neutral-900 to-black flex flex-col items-center justify-center">
+  <main className="min-h-screen bg-gradient-to-b from-black via-red-950 to-black flex flex-col items-center justify-center p-4">
     <div className="text-center">
-      <h1 className="text-5xl font-bold text-white mb-4">SpotiDoro</h1>
-      <p className="text-neutral-400 mb-8 text-lg">Genera playlists a partir de lo que te gusta niño</p>
+      <img src="/images/losYakis.png" alt="Los Yakis, que grandes son" className="w-120 h-72 mx-auto" />
+      <h1 className="text-5xl font-bold text-yellow-500 mb-2">Ritmo Kaló</h1>
+      <p className="text-yellow-200/80 mb-2 text-lg">Pa tos los rumberos y requetonas del barrio suprimo</p>
+      <p className="text-yellow-200/50 mb-8 text-sm italic">"Aro aro, ¿quién no tiene Spotify primo?"</p>
       <button
         onClick={handleLogin}
-        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-200 text-lg"
-      >Iniciar sesión con Spotify
+        className="bg-gradient-to-r from-red-700 via-red-600 to-red-700 hover:from-red-600 hover:via-red-500 hover:to-red-600 text-yellow-300 font-bold py-4 px-8 rounded-full transition-all duration-200 text-lg shadow-lg shadow-red-900/50 hover:scale-105 border-2 border-yellow-600 flex items-center gap-2 mx-auto">
+        Entrar al Tablao
       </button>
+      <p className="text-yellow-200/30 mt-8 text-xs italic">
+        *Necesitas un Spotify, si no lo encuentras, pideselo al payo más cercano*
+      </p>
     </div>
   </main>
 )

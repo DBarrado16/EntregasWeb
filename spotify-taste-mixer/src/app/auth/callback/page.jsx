@@ -13,12 +13,12 @@ export default function CallbackPage(){
         const errorParam = searchParams.get('error')
 
         if(errorParam){
-            setError('Acceso denegado por el usuario')
+            setError('El espotifai no te deja a que mal payo le has robao??')
             return
         }
 
         if(!code){
-            setError('No se recibió el codigo de autorización')
+            setError('Ke nos falta el codigo miarma')
             return
         }
 
@@ -35,7 +35,7 @@ export default function CallbackPage(){
                 const data = await response.json()
 
                 if(!response.ok){
-                    setError(data.error || 'Error al obtener token')
+                    setError(data.error || '¡Ayy ke se ma roto el token niño!')
                     return
                 }
 
@@ -45,7 +45,7 @@ export default function CallbackPage(){
 
                 router.push('/dashboard')
             } catch (err){
-                setError('Error de conexión')
+                setError('Un mal payo nos ha cortao la conesión primo')
             }
         }
 
@@ -54,15 +54,15 @@ export default function CallbackPage(){
 
     if (error) {
         return(
-            <main className="min-h-screen bg-neutral-900 flex flex-col items-center justify-center">
+            <main className="min-h-screen bg-gradient-to-b from-black via-red-950 to-black flex flex-col items-center justify-center">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-red-500 mb-4">Error</h1>
-                    <p className="text-neutral-400 mb-6">{error}</p>
+                    <h1 className="text-2xl font-bold text-red-400 mb-4">Error</h1>
+                    <p className="text-yellow-200/70 mb-6">{error}</p>
                     <a
                         href="/"
-                        className="text-green-500 hover:text-green-400 underline"
+                        className="text-yellow-500 hover:text-yellow-400 underline"
                     >
-                        Volver a inicio
+                        Volver a la entrada
                     </a>
                 </div>
             </main>
@@ -72,10 +72,15 @@ export default function CallbackPage(){
 
 
     return(
-        <main className="min-h-screen bg-neutral-900 flex flex-col items-center justify-center">
+        <main className="min-h-screen bg-gradient-to-b from-black via-red-950 to-black flex flex-col items-center justify-center">
             <div className="text-center">
-                <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-neutral-400">Conectando con Spotify...</p>
+                <img 
+                    src="/images/poquitoapoco.png" 
+                    alt="El patriarca está preparando el tablao" 
+                    className="w-60 h-60 mx-auto rounded-full animate-spin"
+                />
+                <p className="text-yellow-200/70">Preparando el tablao...</p>
+                <p className="text-yellow-200/50 text-sm mt-2">Ole Ole Mis Chunguitos!!</p>
             </div>
         </main>
     )
